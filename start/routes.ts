@@ -20,7 +20,7 @@ Route.post(
     const user = await User.findBy("email", email);
 
     if (user == null) {
-      return response.notFound("Usuário não encontradp");
+      return response.notFound("Usuário não encontrado");
     }
 
     const token = await auth.use("api").attempt(email, password);
