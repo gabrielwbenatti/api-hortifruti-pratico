@@ -10,6 +10,7 @@ export default class AuthController {
       const user = await User.findByOrFail("email", email);
 
       let expira;
+
       switch (user.tipo) {
         case "clientes":
           expira = "30days";
