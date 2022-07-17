@@ -8,7 +8,7 @@ export default class extends BaseSchema {
       table.increments("id").primary();
       table.string("nome").notNullable();
       table
-        .integer("estado")
+        .integer("estado_id")
         .unsigned()
         .notNullable()
         .references("id")
