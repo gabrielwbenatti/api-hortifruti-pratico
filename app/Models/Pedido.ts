@@ -7,8 +7,13 @@ import {
   HasOne,
   hasOne,
 } from "@ioc:Adonis/Lucid/Orm";
-import Cliente from "./Cliente";
-import PedidoStatus from "./PedidoStatus";
+
+import Cliente from "App/Models/Cliente";
+import PedidoStatus from "App/Models/PedidoStatus";
+import Estabelecimento from "App/Models/Estabelecimento";
+import PedidoProduto from "App/Models/PedidoProduto";
+import MeiosPagamento from "App/Models/MeiosPagamento";
+import PedidoEndereco from "App/Models/PedidoEndereco";
 
 export default class Pedido extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
@@ -52,4 +57,25 @@ export default class Pedido extends BaseModel {
     localKey: "pedido_id",
   })
   public pedido_status: HasMany<typeof PedidoStatus>;
+
+  @hasOne(() => Estabelecimento, {
+    localKey: "estabelecimento_id",
+    foreignKey: "id",
+  })
+  public estabelecimento: HasOne<typeof Estabelecimento>;
+
+  @hasMany(() => PedidoProduto, { localKey: "id", foreignKey: "pedido_id" })
+  public produtos: HasMany<typeof PedidoProduto>;
+
+  @hasOne(() => PedidoEndereco, {
+    localKey: "endereco_id",
+    foreignKey: "id",
+  })
+  public endereco: HasOne<typeof PedidoEndereco>;
+
+  @hasOne(() => MeiosPagamento, {
+    localKey: "meio_pagamento_id",
+    foreignKey: "id",
+  })
+  public meio_pagamento: HasOne<typeof MeiosPagamento>;
 }
