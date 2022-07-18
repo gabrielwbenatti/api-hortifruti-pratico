@@ -25,6 +25,9 @@ Route.group(() => {
     "destroy",
   ]);
 
+  Route.post("/pedidos", "PedidosController.store");
+  Route.get("/pedidos", "PedidosController.index");
+
   Route.get("/estabelecimentos/pedidos", "EstabelecimentosController.pedidos");
 
   Route.put("/cliente", "ClientesController.update");
