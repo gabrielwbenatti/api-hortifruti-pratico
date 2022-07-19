@@ -79,6 +79,7 @@ export default class PedidosController {
         pedido_endereco_id: pedidoEndereco.id,
         troco_para: payload.troco_para,
         custo_entrega: estabeCidade ? estabeCidade.custo_entrega : 0,
+        valor: valorTotal,
       });
 
       payload.produtos.forEach(async (produto) => {
@@ -103,7 +104,7 @@ export default class PedidosController {
       return response.ok(pedido);
     } catch (error) {
       await trx.rollback();
-      return response.badRequest("Something wrong in the request");
+      return response.badRequest("Something wrong in the request; " + error);
     }
   }
 
