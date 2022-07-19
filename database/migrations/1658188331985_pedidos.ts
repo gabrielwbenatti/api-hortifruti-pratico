@@ -12,13 +12,13 @@ export default class extends BaseSchema {
         .unsigned()
         .notNullable()
         .references("id")
-        .inTable("cliente");
+        .inTable("clientes");
       table
         .integer("estabelecimento_id")
         .unsigned()
         .notNullable()
         .references("id")
-        .inTable("estabelecimento");
+        .inTable("estabelecimentos");
       table
         .integer("meio_pagamento_id")
         .unsigned()
@@ -30,7 +30,7 @@ export default class extends BaseSchema {
         .unsigned()
         .notNullable()
         .references("id")
-        .inTable("pedidos_enderecos");
+        .inTable("pedido_enderecos");
       table.decimal("valor", 10, 2).notNullable();
       table.decimal("troco_para", 10, 2).nullable();
       table.decimal("custo_entrega", 10, 2).notNullable().defaultTo(0);
