@@ -16,18 +16,19 @@ var randomString = require("randomstring");
 export default class PedidosController {
   public async store({ auth, request, response }: HttpContextContract) {
     const payload = await request.validate(CreatePedidoValidator);
+
     const userAuth = await auth.use("api").authenticate();
     const cliente = await Cliente.findByOrFail("user_id", userAuth.id);
 
     let hash_ok: boolean = false;
     let hash_id: string = "";
-
     while (!hash_ok) {
       hash_id = randomString.generate({
         length: 6,
         charset: "alphanumeric",
         capitalization: "uppercase",
       });
+
       const hash = await Pedido.findBy("hash_id", hash_id);
 
       if (!hash) {
@@ -61,7 +62,9 @@ export default class PedidosController {
         valorTotal += produto.quantidade * prod.preco;
       }
 
-      valorTotal += estabeCidade.custo_entrega;
+      valorTotal = estabeCidade
+        ? valorTotal + estabeCidade.custo_entrega
+        : valorTotal;
       valorTotal = parseFloat(valorTotal.toFixed(2));
 
       if (payload.troco_para != null && payload.troco_para < valorTotal) {
@@ -84,8 +87,9 @@ export default class PedidosController {
 
       payload.produtos.forEach(async (produto) => {
         let getProduto = await Produto.findByOrFail("id", produto.produto_id);
+
         await PedidoProduto.create({
-          id: produto.produto_id,
+          produto_id: produto.produto_id,
           pedido_id: pedido.id,
           valor: getProduto.preco,
           quantidade: produto.quantidade,
@@ -118,7 +122,7 @@ export default class PedidosController {
       .preload("pedido_status", (statusQuery) => {
         statusQuery.preload("status");
       })
-      .orderBy("pedido_id", "desc");
+      .orderBy("id", "desc");
 
     return response.ok(pedidos);
   }

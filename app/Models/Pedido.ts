@@ -53,8 +53,8 @@ export default class Pedido extends BaseModel {
   public cliente: HasOne<typeof Cliente>;
 
   @hasMany(() => PedidoStatus, {
-    foreignKey: "id",
-    localKey: "pedido_id",
+    foreignKey: "pedido_id",
+    localKey: "id",
   })
   public pedido_status: HasMany<typeof PedidoStatus>;
 
@@ -68,7 +68,7 @@ export default class Pedido extends BaseModel {
   public produtos: HasMany<typeof PedidoProduto>;
 
   @hasOne(() => PedidoEndereco, {
-    localKey: "endereco_id",
+    localKey: "pedido_endereco_id",
     foreignKey: "id",
   })
   public endereco: HasOne<typeof PedidoEndereco>;

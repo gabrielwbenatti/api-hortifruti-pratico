@@ -1,6 +1,5 @@
 import { DateTime } from "luxon";
 import { BaseModel, column, HasOne, hasOne } from "@ioc:Adonis/Lucid/Orm";
-
 import Status from "App/Models/Status";
 
 export default class PedidoStatus extends BaseModel {
